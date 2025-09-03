@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Organic Chemistry Quiz 🧪</title>
+  <style>
+    body {
+      font-family: "Tahoma", sans-serif;
+      background: linear-gradient(to right, #89f7fe, #66a6ff);
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #222;
+    }
+    #game {
+      margin: 20px auto;
+      max-width: 700px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .question {
+      font-size: 1.3em;
+      margin: 20px 0;
+    }
+    .option {
+      display: block;
+      background: #f0f0f0;
+      margin: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .option:hover {
+      background: #d1ecf1;
+    }
+    #feedback {
+      font-size: 1.5em;
+      margin: 15px 0;
+    }
+    #score {
+      font-size: 1.3em;
+      margin: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      font-size: 1em;
+    }
+    button:hover {
+      background: #388e3c;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Organic Chemistry Quiz 🎓</h1>
+  <div id="game">
+    <div id="questionBox" class="question"></div>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div id="score">คะแนน: 0</div>
+    <button id="nextBtn" style="display:none;">ข้อถัดไป ➡️</button>
+  </div>
+
+  <script>
+    // ✅ คำถามเคมีอินทรีย์ ม.6
+    const questions = [
+      {
+        q: "1. ไฮโดรคาร์บอนชนิดใดมีพันธะคู่?",
+        options: ["Alkane", "Alkene", "Alkyne", "Arene"],
+        answer: 1
+      },
+      {
+        q: "2. สูตรโมเลกุลของเอทานอลคือข้อใด?",
+        options: ["CH3OH", "C2H5OH", "C2H4O2", "CH3COOH"],
+        answer: 1
+      },
+      {
+        q: "3. หมู่ฟังก์ชัน -COOH คือกลุ่มใด?",
+        options: ["แอลกอฮอล์", "คาร์บอกซิลิกแอซิด", "เอสเทอร์", "คีโตน"],
+        answer: 1
+      },
+      {
+        q: "4. CH3-CH2-CH2-CH3 มีชื่อว่าอะไร?",
+        options: ["มีเทน", "บิวเทน", "โพรเพน", "เพนเทน"],
+        answer: 1
+      },
+      {
+        q: "5. ปฏิกิริยาที่อัลคีนทำได้ แต่แอลเคนทำไม่ได้คือ?",
+        options: ["การเผาไหม้", "การเติม (Addition)", "การแทนที่", "การเกิดโพลิเมอร์"],
+        answer: 1
+      },
+      {
+        q: "6. สารใดเป็นเอสเทอร์?",
+        options: ["CH3COOH", "CH3COOCH3", "C2H5OH", "CH3CHO"],
+        answer: 1
+      },
+      {
+        q: "7. ไอโซเมอร์ของ C4H10 มีกี่โครงสร้าง?",
+        options: ["1", "2", "3", "4"],
+        answer: 1
+      },
+      {
+        q: "8. CH3-CHO เป็นสารในกลุ่มใด?",
+        options: ["อัลดีไฮด์", "คีโตน", "แอลกอฮอล์", "อีเทอร์"],
+        answer: 0
+      },
+      {
+        q: "9. CH3-CO-CH3 มีชื่อสามัญว่าอะไร?",
+        options: ["อะซีโตน", "ฟอร์มาลดีไฮด์", "เมทานอล", "อะซิติกแอซิด"],
+        answer: 0
+      },
+      {
+        q: "10. ปฏิกิริยาพอลิเมอไรเซชันเกิดขึ้นกับสารใด?",
+        options: ["Alkane", "Alkene", "Alcohol", "Ketone"],
+        answer: 1
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    const qBox = document.getElementById("questionBox");
+    const optionsDiv = document.getElementById("options");
+    const feedback = document.getElementById("feedback");
+    const scoreDiv = document.getElementById("score");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function loadQuestion() {
+      let q = questions[current];
+      qBox.textContent = q.q;
+      optionsDiv.innerHTML = "";
+      feedback.textContent = "";
+      nextBtn.style.display = "none";
+      q.options.forEach((opt, i) => {
+        let btn = document.createElement("div");
+        btn.className = "option";
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(i);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(i) {
+      if (i === questions[current].answer) {
+        feedback.textContent = "✅ ถูกต้อง! ⭐";
+        score += 10;
+      } else {
+        feedback.textContent = "❌ ผิด! คำตอบที่ถูกคือ: " + questions[current].options[questions[current].answer];
+      }
+      scoreDiv.textContent = "คะแนน: " + score;
+      nextBtn.style.display = "block";
+      // ปิดการคลิกหลังเลือก
+      document.querySelectorAll(".option").forEach(btn => btn.onclick = null);
+    }
+
+    nextBtn.onclick = () => {
+      current++;
+      if (current < questions.length) {
+        loadQuestion();
+      } else {
+        qBox.textContent = "🎉 จบเกม! คุณได้ " + score + " คะแนน";
+        optionsDiv.innerHTML = "";
+        feedback.textContent = score >= 70 ? "🏆 เก่งมาก!" : "👍 สู้ต่อไป!";
+        nextBtn.style.display = "none";
+      }
+    };
+
+    loadQuestion();
+  </script>
+</body>
+</html>
